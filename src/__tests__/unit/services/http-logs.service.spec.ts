@@ -49,20 +49,20 @@ describe('Http-Logs Service (unit)', () => {
         server = app.listen(port++);
     });
 
-    it('should log an http request', () => {
-        return supertest(app).get('/test').expect(HttpStatusCodes.OK);
+    it('should log an http request', async () => {
+        await supertest(app).get('/test').expect(HttpStatusCodes.OK);
     });
 
-    it('should log an http error', () => {
-        return supertest(app).get('/error').expect(HttpStatusCodes.INTERNAL_SERVER_ERROR);
+    it('should log an http error', async() => {
+        await supertest(app).get('/error').expect(HttpStatusCodes.INTERNAL_SERVER_ERROR);
     });
 
-    it('should log an http unauthorized', () => {
-        return supertest(app).get('/unauthorized').expect(HttpStatusCodes.UNAUTHORIZED);
+    it('should log an http unauthorized', async() => {
+        await supertest(app).get('/unauthorized').expect(HttpStatusCodes.UNAUTHORIZED);
     });
 
-    it('should use res.write from http-log', () => {
-        return supertest(app).get('/write').expect(HttpStatusCodes.OK);
+    it('should use res.write from http-log', async () => {
+        await supertest(app).get('/write').expect(HttpStatusCodes.OK);
     });
     
     after(async () => {
