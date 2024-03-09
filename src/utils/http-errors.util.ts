@@ -32,7 +32,11 @@ export class HttpErrors {
    * @returns HttpError
    */
   public static BadRequest(message = 'BadRequest') {
-    return new HttpError(message, HttpStatusCodes.BAD_REQUEST, HttpStatus.BAD_REQUEST);
+    return new HttpError(
+      message,
+      HttpStatusCodes.BAD_REQUEST,
+      HttpStatus.BAD_REQUEST
+    );
   }
 
   /**
@@ -41,7 +45,11 @@ export class HttpErrors {
    * @returns HttpError
    */
   public static NotFound(message = 'NotFound') {
-    return new HttpError(message, HttpStatusCodes.NOT_FOUND, HttpStatus.NOT_FOUND);
+    return new HttpError(
+      message,
+      HttpStatusCodes.NOT_FOUND,
+      HttpStatus.NOT_FOUND
+    );
   }
 
   /**
@@ -50,7 +58,11 @@ export class HttpErrors {
    * @returns HttpError
    */
   public static Unauthorized(message = 'Unauthorized') {
-    return new HttpError(message, HttpStatusCodes.UNAUTHORIZED, HttpStatus.UNAUTHORIZED);
+    return new HttpError(
+      message,
+      HttpStatusCodes.UNAUTHORIZED,
+      HttpStatus.UNAUTHORIZED
+    );
   }
 
   /**
@@ -59,7 +71,11 @@ export class HttpErrors {
    * @returns HttpError
    */
   public static Forbidden(message = 'Forbidden') {
-    return new HttpError(message, HttpStatusCodes.FORBIDDEN, HttpStatus.FORBIDDEN);
+    return new HttpError(
+      message,
+      HttpStatusCodes.FORBIDDEN,
+      HttpStatus.FORBIDDEN
+    );
   }
 
   /**
@@ -94,7 +110,11 @@ export class HttpErrors {
    * @returns HttpError
    */
   public static BadGateway(message = 'BadGateway') {
-    return new HttpError(message, HttpStatusCodes.BAD_GATEWAY, HttpStatus.BAD_GATEWAY);
+    return new HttpError(
+      message,
+      HttpStatusCodes.BAD_GATEWAY,
+      HttpStatus.BAD_GATEWAY
+    );
   }
 
   /**

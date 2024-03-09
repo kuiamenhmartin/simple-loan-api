@@ -2,8 +2,8 @@ import express, {NextFunction, Request, Response} from 'express';
 import {json, urlencoded} from 'body-parser';
 import {HttpErrors} from './utils';
 import {HttpLogsService} from './services';
-import { loanRouter } from './routes';
-import { Config } from './config';
+import {loanRouter} from './routes';
+import {Config} from './config';
 
 const app = express();
 const config = new Config();
@@ -29,4 +29,3 @@ app.use(HttpErrors.Throw);
 app.listen(config.port);
 
 export default app;
-

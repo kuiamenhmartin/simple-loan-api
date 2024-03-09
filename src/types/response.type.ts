@@ -1,8 +1,8 @@
-import { HttpStatusCodes } from "../constants";
+import {HttpStatusCodes} from '../constants';
 
-export type ResponseType<T> =  {
-    status: HttpStatusCodes;
-    success: boolean;
-    message: string;
-    data?: T
-}
+export type ResponseType<T> = {
+  status: HttpStatusCodes;
+  success: boolean;
+  message: string;
+  data?: T;
+};

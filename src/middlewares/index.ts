@@ -1,2 +1,2 @@
-export * from './validator.middleware'
-export * from './loan.middleware'
+export * from './validator.middleware';
+export * from './loan.middleware';

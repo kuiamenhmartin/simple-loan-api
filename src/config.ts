@@ -1,11 +1,13 @@
 import * as dotenv from 'dotenv';
-import { DEFAULT_PORT, Environment, Redis } from './constants';
+import {DEFAULT_PORT, Environment, Redis} from './constants';
 import path from 'path';
 
 const environment = process.env.NODE_ENV || '';
-dotenv.config({ 
-  path: path.resolve(`./.env${environment ? `.${environment}` : `` }`).normalize(),
-  override: true
+dotenv.config({
+  path: path
+    .resolve(`./.env${environment ? `.${environment}` : ''}`)
+    .normalize(),
+  override: true,
 });
 
 const {env} = process;
@@ -33,6 +35,6 @@ export class Config {
     port: Number(env.REDIS_PORT || Redis.DEFAULT_PORT),
     password: env.REDIS_PASSWORD || '',
     username: env.REDIS_USERNAME || '',
-    db: env.REDIS_DB || 0
-  }
+    db: env.REDIS_DB || 0,
+  };
 }

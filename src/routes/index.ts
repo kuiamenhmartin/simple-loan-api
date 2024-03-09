@@ -1,1 +1,1 @@
-export * from './loans.route'
+export * from './loans.route';

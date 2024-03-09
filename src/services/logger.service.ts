@@ -2,7 +2,7 @@ import {addColors, createLogger, format, transports} from 'winston';
 import * as dotenv from 'dotenv';
 import {AnyData} from '../types';
 import {safeJsonParse} from '../utils/safe-json-parse.util';
-import { Environment, LOGGER_SERVICE } from '../constants';
+import {Environment, LOGGER_SERVICE} from '../constants';
 
 dotenv.config();
 const {env} = process;

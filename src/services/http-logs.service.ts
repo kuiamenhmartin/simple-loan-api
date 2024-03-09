@@ -1,16 +1,15 @@
 import {NextFunction, Request, Response} from 'express';
 import {LoggerService} from './logger.service';
 import {AnyData} from '../types';
-import { LoggerName } from '../constants';
+import {LoggerName} from '../constants';
 
 const httpLogger = new LoggerService(LoggerName.HTTP_LOGGER_SERVICE);
 
 /**
  * HttpLogsService - intercepts request and response to foramt logs of each request and response
- * to the console 
+ * to the console
  */
 export class HttpLogsService {
-  
   public static log(req: Request, res: Response, next: NextFunction) {
     /*get response data*/
     const oldWrite = res.write;
@@ -30,10 +29,11 @@ export class HttpLogsService {
       oldEnd.apply(res, <AnyData>responseData);
 
       const responseTime = Date.now() - startTime;
-      const { method: rawMethod, url } = req;
+      const {method: rawMethod, url} = req;
       const method = rawMethod.toUpperCase();
-      const ip = req.header('x-forwarded-for') || req.ip || req.connection.remoteAddress;
-      const { statusCode, statusMessage } = res;
+      const ip =
+        req.header('x-forwarded-for') || req.ip || req.connection.remoteAddress;
+      const {statusCode, statusMessage} = res;
       const contentLength = responseData?.toString()?.length ?? 0;
       const logMessage = `${method.toUpperCase()} ${url} [ip]:${ip} [time]:${responseTime}ms [len]:${contentLength} - ${statusCode}-${statusMessage}`;
 
