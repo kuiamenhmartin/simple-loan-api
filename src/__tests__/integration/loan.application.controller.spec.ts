@@ -12,7 +12,7 @@ import {
 import {LoanType} from '../../interfaces';
 import {HttpStatusCodes} from '../../constants';
 
-describe('LoanController Integration Test', () => {
+describe('Loan Application Controller (integration)', () => {
   const app = express();
   let server: Server;
   let port = TestConfig.PORT;
