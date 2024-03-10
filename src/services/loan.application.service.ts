@@ -1,4 +1,4 @@
-import {CAR_LOAN_TERM, PERSONAL_LOAN_TERM} from '../constants/loan.constants';
+import {CAR_LOAN_TERM, PERSONAL_LOAN_TERM} from '../constants';
 import {LoanApplication, LoanType} from '../interfaces';
 import {LoanApplicationRepository} from '../repository';
 import {HttpErrors} from '../utils';
@@ -47,7 +47,7 @@ export class LoanApplicationService {
     const newLoanApplication =
       await this.loanApplicationRepository.create(loanApplication);
     this.logger.info(`new loan application created ${newLoanApplication.id}`);
-    return newLoanApplication;
+    return newLoanApplication as LoanApplication;
   }
 
   /**
@@ -102,7 +102,7 @@ export class LoanApplicationService {
    * @param loanType car | personal
    * @returns loan term by year
    */
-  getLoanTerm(loanType: LoanType): number {
+  getLoanTerm(loanType: LoanType): number | void {
     if (loanType === LoanType.CAR) {
       return CAR_LOAN_TERM;
     }
@@ -110,11 +110,5 @@ export class LoanApplicationService {
     if (loanType === LoanType.PERSONAL) {
       return PERSONAL_LOAN_TERM;
     }
-
-    throw HttpErrors.BadRequest(
-      `Loan type must be one of the following ${Object.values(LoanType).join(
-        ' | '
-      )}`
-    );
   }
 }

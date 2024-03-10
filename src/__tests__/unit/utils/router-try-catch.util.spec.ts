@@ -3,7 +3,7 @@ import {RouterTryCatch} from '../../../utils';
 import {AnyData} from '../../../types';
 import {HttpStatusCodes} from '../../../constants';
 
-describe('RouterTryCatch (unit)', () => {
+describe('RouterTryCatch Util (unit)', () => {
   const mockRequest = {method: 'get', path: '/api/loans'};
   const mockResponse = {status: sinon.stub().returnsThis(), send: sinon.stub()};
   const nextFunction = sinon.stub();

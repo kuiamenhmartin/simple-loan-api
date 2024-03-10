@@ -3,7 +3,7 @@ import {LoanApplication, LoanType} from '../interfaces';
 import {
   CAR_LOAN_AMOUNT_LIMIT,
   PERSONAL_LOAN_AMOUNT_LIMIT,
-} from '../constants/loan.constants';
+} from '../constants/loan.constant';
 
 /**
  * isGreaterThanZero - checks if input value is greather than zero

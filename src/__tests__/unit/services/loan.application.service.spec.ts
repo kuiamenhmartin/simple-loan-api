@@ -11,7 +11,7 @@ import {LoanApplication, LoanType} from '../../../interfaces';
 import {
   CAR_LOAN_TERM,
   PERSONAL_LOAN_TERM,
-} from '../../../constants/loan.constants';
+} from '../../../constants/loan.constant';
 
 describe('Loan Application Service (unit)', () => {
   let loanApplicationService: LoanApplicationService;

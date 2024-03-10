@@ -3,12 +3,12 @@ import supertest from 'supertest';
 import {Server} from 'http';
 import {loanRouter} from '../../routes';
 import {expect} from 'chai';
-import {TestConfig} from '../fixtures/config.fixtures';
 import {
+  TestConfig,
   SingleLoanApplication,
   LoanEndpoint,
   createNewLoanApplicationFixture,
-} from '../fixtures/loan.application.fixture';
+} from '../fixtures';
 import {LoanType} from '../../interfaces';
 import {HttpStatusCodes} from '../../constants';
 

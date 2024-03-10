@@ -1,10 +1,14 @@
 import {Request} from 'express';
 import {HttpStatusCodes} from '../constants';
 import {matchedData} from 'express-validator';
-import {LoanApplication} from '../interfaces';
+import {
+  ComputedLoanApplication,
+  LoanApplication,
+  LoanType,
+} from '../interfaces';
 import {ResponseType} from '../types';
 import {LoanApplicationService} from '../services';
-import {calculateMonthlyPayment} from '../utils';
+import {HttpErrors, calculateMonthlyPayment} from '../utils';
 
 export class LoanApplicationController {
   loanApplicationService: LoanApplicationService;
@@ -16,11 +20,9 @@ export class LoanApplicationController {
   /**
    * create - creates a new loan application
    * @param req - the express Request
-   * @returns Promise<ResponseType<Loan>> - the newly created loan
+   * @returns Promise<ResponseType<LoanApplication>> - the newly created loan
    */
-  async create(
-    req: Request
-  ): Promise<ResponseType<LoanApplication & {monthlyPayment: number}>> {
+  async create(req: Request): Promise<ResponseType<ComputedLoanApplication>> {
     const data = matchedData(req, {includeOptionals: false}) as LoanApplication;
 
     // create new loan application
@@ -30,6 +32,14 @@ export class LoanApplicationController {
     const loanTerm = this.loanApplicationService.getLoanTerm(
       loanApplcation.loanType
     );
+
+    if (!loanTerm) {
+      throw HttpErrors.BadRequest(
+        `Loan type must be one of the following ${Object.values(LoanType).join(
+          ' | '
+        )}`
+      );
+    }
 
     // compute for monthly payment
     let monthlyPayment = calculateMonthlyPayment(
@@ -44,7 +54,7 @@ export class LoanApplicationController {
       success: true,
       message: 'New Loan Application successfully created!',
       data: {
-        ...(loanApplcation as LoanApplication),
+        ...loanApplcation,
         monthlyPayment,
       },
     };
@@ -53,7 +63,7 @@ export class LoanApplicationController {
   /**
    * findAll - retrieves all loan applications
    * @param req - the express Request
-   * @returns Promise<ResponseType<Loan[]>> - list of all loans
+   * @returns Promise<ResponseType<LoanApplication[]>> - list of all loans
    */
   async findAll(): Promise<ResponseType<LoanApplication[]>> {
     const data = await this.loanApplicationService.findAll();
@@ -68,27 +78,27 @@ export class LoanApplicationController {
   /**
    * findById - retrieves loan application by ID
    * @param req - the express Request
-   * @returns Promise<ResponseType<void>> - loan found by id
+   * @returns Promise<ResponseType<LoanApplication>> - loan found by id
    */
   async findById(req: Request): Promise<ResponseType<LoanApplication>> {
     const params = matchedData(req, {includeOptionals: false});
-    const loan = await this.loanApplicationService.findById(
+    const loanApplication = await this.loanApplicationService.findById(
       params.id as string
     );
     return {
       status: HttpStatusCodes.OK,
       success: true,
       message: 'Loan application successfully retrieved!',
-      data: loan,
+      data: loanApplication,
     };
   }
 
   /**
    * update - update loan application by ID
    * @param req - the express Request
-   * @returns Promise<ResponseType<void>> - response message
+   * @returns Promise<ResponseType> - response message
    */
-  async update(req: Request): Promise<ResponseType<void>> {
+  async update(req: Request): Promise<ResponseType> {
     const data = matchedData(req, {includeOptionals: false}) as LoanApplication;
     await this.loanApplicationService.update(data.id as string, data);
     return {
@@ -101,9 +111,9 @@ export class LoanApplicationController {
   /**
    * delete - deletes a loan application by ID
    * @param req - the express Request
-   * @returns Promise<ResponseType<void>>
+   * @returns Promise<ResponseType> - response message
    */
-  async delete(req: Request): Promise<ResponseType<void>> {
+  async delete(req: Request): Promise<ResponseType> {
     const data = matchedData(req, {includeOptionals: false});
     await this.loanApplicationService.delete(data.id as string);
     return {

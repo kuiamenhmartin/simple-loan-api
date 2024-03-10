@@ -2,7 +2,7 @@ import {expect} from 'chai';
 import {safeJsonParse} from '../../../utils';
 import {AnyData} from '../../../types';
 
-describe('safeJsonParse (unit)', () => {
+describe('SafeJsonParse Util (unit)', () => {
   it('should return parsed json string using <safeJsonParse>', async () => {
     // test case with array as input to be parsed
     let response = safeJsonParse('[]', []);

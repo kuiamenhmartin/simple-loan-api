@@ -1,9 +1,9 @@
-import express, {NextFunction, Request, Response} from 'express';
-import {HttpLogsService} from '../../../services';
 import {Server} from 'http';
 import supertest from 'supertest';
+import express, {NextFunction, Request, Response} from 'express';
+import {HttpLogsService} from '../../../services';
 import {HttpStatusCodes} from '../../../constants';
-import {TestConfig} from '../../fixtures/config.fixtures';
+import {TestConfig} from '../../fixtures';
 
 describe('Http-Logs Service (unit)', () => {
   const app = express();

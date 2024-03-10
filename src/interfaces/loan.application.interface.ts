@@ -1,3 +1,5 @@
+import {Prettify} from '../types';
+
 export enum LoanType {
   CAR = 'CAR',
   PERSONAL = 'PERSONAL',
@@ -13,6 +15,8 @@ export type LoanApplication = {
   interestRate: number;
 };
 
-export type LoanApplicationWithMonthlyPayment = LoanApplication & {
-  monthlyPayment: number;
-};
+export type ComputedLoanApplication = Prettify<
+  LoanApplication & {
+    monthlyPayment: number;
+  }
+>;

@@ -1,6 +1,4 @@
 import {LoanApplication, LoanType} from '../../interfaces';
-import supertest from 'supertest';
-import express from 'express';
 
 export const LoanEndpoint = '/api/loans';
 
@@ -28,14 +26,3 @@ export const CurrentLoanApplications: LoanApplication[] = [
 
 export const SingleLoanApplication: LoanApplication =
   CurrentLoanApplications[0];
-
-export const createNewLoanApplicationFixture = async (
-  app: ReturnType<typeof express>,
-  loanData: LoanApplication
-) => {
-  return await supertest(app)
-    .post(LoanEndpoint)
-    .send(loanData)
-    .set('Content-Type', 'application/json')
-    .set('Accept', 'application/json');
-};

@@ -1,14 +1,14 @@
 import {Meta} from 'express-validator';
+import {expect} from 'chai';
+import {LoanType} from '../../../interfaces';
 import {
   isGreaterThanZero,
   isLoanAmountExceedsLimit,
 } from '../../../middlewares';
-import {expect} from 'chai';
-import {LoanType} from '../../../interfaces';
 import {
   CAR_LOAN_AMOUNT_LIMIT,
   PERSONAL_LOAN_AMOUNT_LIMIT,
-} from '../../../constants/loan.constants';
+} from '../../../constants';
 
 describe('Loan Middleware (unit)', () => {
   const mockMeta = {

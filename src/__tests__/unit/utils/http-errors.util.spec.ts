@@ -5,15 +5,13 @@ import {HttpStatus, HttpStatusCodes} from '../../../constants';
 import {LoggerService} from '../../../services';
 import {Request, Response} from 'express';
 
-describe('Http-Logs Service (unit)', () => {
+describe('Http-Errors Util (unit)', () => {
   const testSandbox = sinon.createSandbox();
   let loggerServiceStub: sinon.SinonStubbedInstance<LoggerService>;
 
   beforeEach(async () => {
     loggerServiceStub = testSandbox.stub(LoggerService.prototype);
-    const fakeFunc = (msg: Error) => {
-      console.log(msg);
-    };
+    const fakeFunc = () => {};
     loggerServiceStub.error.callsFake(fakeFunc);
     loggerServiceStub.warn.callsFake(fakeFunc);
   });

@@ -44,11 +44,11 @@ export class LoanApplicationRepository
     const result = await Promise.all(
       data.map(async key => {
         const loan = (await (await this.dataSource).get(key)) as string;
-        return {id: key, ...safeJsonParse(loan, {})};
+        return {id: key, ...safeJsonParse(loan, {})} as LoanApplication;
       })
     );
 
-    return result as LoanApplication[];
+    return result;
   }
 
   /**
@@ -72,7 +72,7 @@ export class LoanApplicationRepository
       loanApplicationId,
       JSON.stringify(loanApplication)
     );
-    return {id: loanApplicationId, ...loanApplication};
+    return {id: loanApplicationId, ...loanApplication} as LoanApplication;
   }
 
   /**

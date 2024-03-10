@@ -1,6 +1,6 @@
 import sinon from 'sinon';
-import {LoggerService} from '../../../services';
 import {expect} from 'chai';
+import {LoggerService} from '../../../services';
 
 describe('Logger Service (unit)', () => {
   let loggerService: LoggerService;
