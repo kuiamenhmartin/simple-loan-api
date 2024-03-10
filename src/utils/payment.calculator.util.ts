@@ -2,8 +2,8 @@
  * Calculate monthly payment based on loan amount, interest rate, and loan term
  * @param loanAmount amount loan
  * @param interestRate interest rate used for computation
- * @param loanTerm loan term in years base on loan type (car, personal)
- * @returns monthlyPayment
+ * @param loanTerm loan term(in years) based on loan type (car or personal)
+ * @returns calculated monthly payment
  */
 export const calculateMonthlyPayment = (
   loanAmount: number,

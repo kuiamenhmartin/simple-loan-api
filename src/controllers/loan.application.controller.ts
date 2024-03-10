@@ -20,7 +20,7 @@ export class LoanApplicationController {
   /**
    * create - creates a new loan application
    * @param req - the express Request
-   * @returns Promise<ResponseType<LoanApplication>> - the newly created loan
+   * @returns Promise<ResponseType<LoanApplication>> - the newly created loan application
    */
   async create(req: Request): Promise<ResponseType<ComputedLoanApplication>> {
     const data = matchedData(req, {includeOptionals: false}) as LoanApplication;
@@ -63,7 +63,7 @@ export class LoanApplicationController {
   /**
    * findAll - retrieves all loan applications
    * @param req - the express Request
-   * @returns Promise<ResponseType<LoanApplication[]>> - list of all loans
+   * @returns Promise<ResponseType<LoanApplication[]>> - list of all loan applications
    */
   async findAll(): Promise<ResponseType<LoanApplication[]>> {
     const data = await this.loanApplicationService.findAll();
@@ -78,7 +78,7 @@ export class LoanApplicationController {
   /**
    * findById - retrieves loan application by ID
    * @param req - the express Request
-   * @returns Promise<ResponseType<LoanApplication>> - loan found by id
+   * @returns Promise<ResponseType<LoanApplication>> - loan application
    */
   async findById(req: Request): Promise<ResponseType<LoanApplication>> {
     const params = matchedData(req, {includeOptionals: false});

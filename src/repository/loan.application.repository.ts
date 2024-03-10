@@ -18,8 +18,8 @@ export class LoanApplicationRepository
   }
 
   /**
-   * findAll - retrieves array of loan applications
-   * @returns Promise<LoanApplication[]> - list of loans
+   * findAll - retrieves list of loan applications
+   * @returns Promise<LoanApplication[]> - list of loan applications
    */
   async findAll() {
     const data = [];
@@ -53,8 +53,8 @@ export class LoanApplicationRepository
 
   /**
    * findById - retrieves loan application using loan id
-   * @param loanApplicationId - loan applicationId id
-   * @returns Promise< LoanApplication >
+   * @param loanApplicationId - loan application id
+   * @returns Promise<LoanApplication>
    */
   async findById(loanApplicationId: string) {
     const loan = await (await this.dataSource).get(loanApplicationId);
@@ -64,7 +64,7 @@ export class LoanApplicationRepository
   /**
    * create - creates new loan
    * @param loanApplication - loan application data to create
-   * @returns Promise< LoanApplication >
+   * @returns Promise<LoanApplication>
    */
   async create(loanApplication: LoanApplication) {
     const loanApplicationId = generateRandomKey();
@@ -78,7 +78,7 @@ export class LoanApplicationRepository
   /**
    * update - update loanApplication by loan application id
    * @param loanApplicationId - loan application id
-   * @param loan - loan data to update
+   * @param loanApplication - loan application data to update
    */
   async update(
     loanApplicationId: string,
@@ -91,7 +91,7 @@ export class LoanApplicationRepository
 
   /**
    * delete - deletes loan by loan application id
-   * @param loanApplicationId - loanApplicationId id
+   * @param loanApplicationId - loan application id
    */
   async delete(loanApplicationId: string) {
     await (await this.dataSource).del([loanApplicationId]);
