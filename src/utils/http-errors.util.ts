@@ -3,9 +3,9 @@ import {HttpStatus, HttpStatusCodes, LoggerName} from '../constants';
 import {LoggerService} from '../services';
 
 /**
- * HttpError - extends the Error object and added extra props to match
- * the needs when throwing Http Errors such as status code.
- * This error is handled by the HttpErrors.throw method.
+ * HttpError
+ * - extends the Error object and added extra props to match the needs when throwing Http Errors such as status code.
+ * - this error is handled by the HttpErrors.throw method.
  */
 export class HttpError extends Error {
   statusCode: number;

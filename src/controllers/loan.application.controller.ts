@@ -1,14 +1,10 @@
 import {Request} from 'express';
 import {HttpStatusCodes} from '../constants';
 import {matchedData} from 'express-validator';
-import {
-  ComputedLoanApplication,
-  LoanApplication,
-  LoanType,
-} from '../interfaces';
+import {ComputedLoanApplication, LoanApplication} from '../interfaces';
 import {ResponseType} from '../types';
 import {LoanApplicationService} from '../services';
-import {HttpErrors, calculateMonthlyPayment} from '../utils';
+import {calculateMonthlyPayment} from '../utils';
 
 export class LoanApplicationController {
   loanApplicationService: LoanApplicationService;
@@ -33,19 +29,11 @@ export class LoanApplicationController {
       loanApplcation.loanType
     );
 
-    if (!loanTerm) {
-      throw HttpErrors.BadRequest(
-        `Loan type must be one of the following ${Object.values(LoanType).join(
-          ' | '
-        )}`
-      );
-    }
-
     // compute for monthly payment
     let monthlyPayment = calculateMonthlyPayment(
       loanApplcation.loanAmount,
       loanApplcation.interestRate,
-      loanTerm
+      loanTerm as number
     );
     monthlyPayment = Math.floor(monthlyPayment * 100) / 100;
 

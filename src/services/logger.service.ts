@@ -1,10 +1,18 @@
-import {addColors, createLogger, format, transports} from 'winston';
+import path from 'path';
 import * as dotenv from 'dotenv';
 import {AnyData} from '../types';
+import {addColors, createLogger, format, transports} from 'winston';
 import {safeJsonParse} from '../utils/safe-json-parse.util';
 import {Environment, LOGGER_SERVICE} from '../constants';
 
-dotenv.config();
+const environment = process.env.NODE_ENV || '';
+dotenv.config({
+  path: path
+    .resolve(`./.env${environment ? `.${environment}` : ''}`)
+    .normalize(),
+  override: true,
+});
+
 const {env} = process;
 
 /**

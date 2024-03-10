@@ -3,3 +3,4 @@ export * from './router-try-catch.util';
 export * from './safe-json-parse.util';
 export * from './generate-key.util';
 export * from './payment.calculator.util';
+export * from './exception-errors.util';

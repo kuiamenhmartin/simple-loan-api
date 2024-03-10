@@ -290,13 +290,12 @@ The REST API for this project is listed below.
     curl --location 'localhost:4000/api/loans/4ce0b16be027ec66bd0d92f006f6ee62'
 
 ### Response
-
-      {
-        "status": 404,
-        "success": false,
-        "message": "Loan application '4ce0b16be027ec66bd0d92f006f6ee62' not found.",
-        "code": "NOT_FOUND"
-      }
+        {
+          "status": 404,
+          "success": false,
+          "message": "Unknown loan application '4ce0b16be027ec66bd0d92f006f6ee62'",
+          "code": "NOT_FOUND"
+        }
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

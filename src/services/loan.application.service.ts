@@ -1,7 +1,7 @@
 import {CAR_LOAN_TERM, PERSONAL_LOAN_TERM} from '../constants';
 import {LoanApplication, LoanType} from '../interfaces';
 import {LoanApplicationRepository} from '../repository';
-import {HttpErrors} from '../utils';
+import {ResourceNotFoundExceptionError} from '../utils';
 import {LoggerService} from './logger.service';
 
 export class LoanApplicationService {
@@ -17,23 +17,23 @@ export class LoanApplicationService {
    * findAll - returns array of loan applications
    * @returns Promise<LoanApplication[]> - list of loans
    */
-  async findAll() {
+  async findAll(): Promise<LoanApplication[]> {
     return (await this.loanApplicationRepository.findAll()) as LoanApplication[];
   }
 
   /**
    * findById - returns loan application by id
    * @param applicationId - loan application id
-   * @returns Promise<Loan>
+   * @returns Promise<LoanApplication>
    */
-  async findById(applicationId: string) {
+  async findById(applicationId: string): Promise<LoanApplication> {
     const loanApplication =
       await this.loanApplicationRepository.findById(applicationId);
 
     if (!loanApplication) {
-      const errMsg = `Loan application '${applicationId}' not found.`;
-      this.logger.info(errMsg);
-      throw HttpErrors.NotFound(errMsg);
+      const errMsg = `Unknown loan application '${applicationId}'`;
+      this.logger.error(errMsg);
+      throw new ResourceNotFoundExceptionError(errMsg);
     }
 
     return {id: applicationId, ...loanApplication} as LoanApplication;
@@ -42,8 +42,9 @@ export class LoanApplicationService {
   /**
    * create - creates new loan application
    * @param loanApplication - loan application to create
+   * @returns Promise<LoanApplication>
    */
-  async create(loanApplication: LoanApplication) {
+  async create(loanApplication: LoanApplication): Promise<LoanApplication> {
     const newLoanApplication =
       await this.loanApplicationRepository.create(loanApplication);
     this.logger.info(`new loan application created ${newLoanApplication.id}`);
@@ -54,19 +55,14 @@ export class LoanApplicationService {
    * update - update loan application using loanApplication id
    * @param applicationId - loan application id
    * @param loan - loan data to update
+   * @returns Promise<void>
    */
   async update(
     applicationId: string,
     loanApplication: Partial<LoanApplication>
-  ) {
+  ): Promise<void> {
     const oldLoanApplication =
       await this.loanApplicationRepository.findById(applicationId);
-
-    if (!oldLoanApplication) {
-      const errMsg = `Loan application not found ${applicationId}`;
-      this.logger.info(errMsg);
-      throw HttpErrors.NotFound(errMsg);
-    }
 
     const updatedLoanApplication = {
       ...oldLoanApplication,
@@ -83,16 +79,10 @@ export class LoanApplicationService {
   /**
    * removeLoanApplication - deletes loan using loan application by id
    * @param applicationId - loan application id
+   * @returns Promise<void>
    */
-  async delete(applicationId: string) {
-    const result = await this.loanApplicationRepository.findById(applicationId);
-
-    if (!result) {
-      const errMsg = `Unable to delete loan application. Loan application not found ${applicationId}`;
-      this.logger.info(errMsg);
-      throw HttpErrors.NotFound(errMsg);
-    }
-
+  async delete(applicationId: string): Promise<void> {
+    await this.loanApplicationRepository.findById(applicationId);
     await this.loanApplicationRepository.delete(applicationId);
     this.logger.info(`deleted loan application '${applicationId}'`);
   }
