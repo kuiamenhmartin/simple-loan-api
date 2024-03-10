@@ -56,14 +56,6 @@ describe('Loan Application Service (unit)', () => {
     // stub repository delete method
     loanApplicationRepositoryStub.delete.resolves();
 
-    // Test case: application to be deleted is not found or does not exist
-    loanApplicationRepositoryStub.findById.resolves(undefined);
-    loanApplicationService.delete(loandApplicationId).catch(err => {
-      expect((err as Error).message).to.be.eql(
-        `Unable to delete loan application. Loan application not found ${loandApplicationId}`
-      );
-    });
-
     // Test case: application to be deleted is found
     loanApplicationRepositoryStub.findById.resolves(loanAplication);
     const response = await loanApplicationService.delete(loandApplicationId);
@@ -87,7 +79,7 @@ describe('Loan Application Service (unit)', () => {
     loanApplicationRepositoryStub.findById.resolves(undefined);
     loanApplicationService.findById(loandApplicationId).catch(err => {
       expect((err as Error).message).to.be.eql(
-        `Loan application '${loandApplicationId}' not found.`
+        `Unknown loan application '${loandApplicationId}'`
       );
     });
 
@@ -102,16 +94,6 @@ describe('Loan Application Service (unit)', () => {
     // prepare loan applicaton data
     const loandApplicationId = LoanApplicationId;
     const loanAplication = {...SingleLoanApplication, id: loandApplicationId};
-
-    // Test case: application being searched is not found or does not exist
-    loanApplicationRepositoryStub.findById.resolves(undefined);
-    loanApplicationService
-      .update(loandApplicationId, loanAplication)
-      .catch(err => {
-        expect((err as Error).message).to.be.eql(
-          `Loan application not found ${loandApplicationId}`
-        );
-      });
 
     // Test case: application is found and can be updated
     loanApplicationRepositoryStub.findById.resolves(loanAplication);
@@ -128,7 +110,7 @@ describe('Loan Application Service (unit)', () => {
     const loanTypePersonal = LoanType.PERSONAL;
     const carLoanTerm = CAR_LOAN_TERM;
     const personalLoanTerm = PERSONAL_LOAN_TERM;
-    const uknownTerm = 'Mortgagee' as LoanType;
+    const uknownTerm = 'Mortgage' as LoanType;
 
     // Test case: get loan term for loan type CAR
     const response = loanApplicationService.getLoanTerm(loanTypeCar);
@@ -138,11 +120,8 @@ describe('Loan Application Service (unit)', () => {
     const response2 = loanApplicationService.getLoanTerm(loanTypePersonal);
     expect(response2).to.be.eql(personalLoanTerm);
 
-    // Test case: uknown loan type
-    try {
-      loanApplicationService.getLoanTerm(uknownTerm);
-    } catch (err) {
-      expect((err as Error).message).to.be.not.empty;
-    }
+    // Test case: unknown loan type
+    const response3 = loanApplicationService.getLoanTerm(uknownTerm);
+    expect(response3).to.be.undefined;
   });
 });

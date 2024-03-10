@@ -61,9 +61,7 @@ export class LoanApplicationService {
     applicationId: string,
     loanApplication: Partial<LoanApplication>
   ): Promise<void> {
-    const oldLoanApplication =
-      await this.loanApplicationRepository.findById(applicationId);
-
+    const oldLoanApplication = await this.findById(applicationId);
     const updatedLoanApplication = {
       ...oldLoanApplication,
       ...loanApplication,
@@ -82,7 +80,7 @@ export class LoanApplicationService {
    * @returns Promise<void>
    */
   async delete(applicationId: string): Promise<void> {
-    await this.loanApplicationRepository.findById(applicationId);
+    await this.findById(applicationId);
     await this.loanApplicationRepository.delete(applicationId);
     this.logger.info(`deleted loan application '${applicationId}'`);
   }
