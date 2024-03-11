@@ -16,7 +16,7 @@ export class LoanApplicationController {
   /**
    * create - creates a new loan application
    * @param req - the express Request
-   * @returns Promise<ResponseType<LoanApplication>> - the newly created loan application
+   * @returns Promise<ResponseType<ComputedLoanApplication>> - the newly created loan application
    */
   async create(req: Request): Promise<ResponseType<ComputedLoanApplication>> {
     const data = matchedData(req, {includeOptionals: false}) as LoanApplication;
