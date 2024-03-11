@@ -2,8 +2,8 @@ import {Meta} from 'express-validator';
 import {expect} from 'chai';
 import {LoanType} from '../../../interfaces';
 import {
-  isGreaterThanZero,
-  isLoanAmountExceedsLimit,
+  isNotGreaterThanZero,
+  isLoanAmountWithinLimit,
 } from '../../../middlewares';
 import {
   CAR_LOAN_AMOUNT_LIMIT,
@@ -19,13 +19,13 @@ describe('Loan Middleware (unit)', () => {
   it('should test is greater than zero', async () => {
     // test case when inputNum is less than one
     let inputNum = -1;
-    isGreaterThanZero(inputNum, mockMeta).catch(err => {
+    isNotGreaterThanZero(inputNum, mockMeta).catch(err => {
       expect((err as Error).message).to.be.not.empty;
     });
 
     // test case when inputNum is greater than zero
     inputNum = 1000;
-    const response = await isGreaterThanZero(inputNum, mockMeta);
+    const response = await isNotGreaterThanZero(inputNum, mockMeta);
     expect(response).to.be.true;
   });
 
@@ -41,7 +41,7 @@ describe('Loan Middleware (unit)', () => {
     };
     let loanAmount = CAR_LOAN_AMOUNT_LIMIT + 1000;
 
-    isLoanAmountExceedsLimit(loanAmount, mockMeta2).catch(err => {
+    isLoanAmountWithinLimit(loanAmount, mockMeta2).catch(err => {
       expect((err as Error).message).to.be.not.empty;
     });
 
@@ -55,7 +55,7 @@ describe('Loan Middleware (unit)', () => {
       },
     };
     loanAmount = PERSONAL_LOAN_AMOUNT_LIMIT + 1000;
-    isLoanAmountExceedsLimit(loanAmount, mockMeta2).catch(err => {
+    isLoanAmountWithinLimit(loanAmount, mockMeta2).catch(err => {
       expect((err as Error).message).to.be.not.empty;
     });
 
@@ -69,7 +69,7 @@ describe('Loan Middleware (unit)', () => {
       },
     };
     loanAmount = PERSONAL_LOAN_AMOUNT_LIMIT;
-    const response = await isLoanAmountExceedsLimit(loanAmount, mockMeta2);
+    const response = await isLoanAmountWithinLimit(loanAmount, mockMeta2);
     expect(response).to.be.true;
   });
 });

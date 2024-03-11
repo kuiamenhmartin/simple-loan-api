@@ -6,12 +6,12 @@ import {
 } from '../constants/loan.constant';
 
 /**
- * isGreaterThanZero - checks if input value is greather than zero
+ * isNotGreaterThanZero - checks if input value is not greather than zero
  * @param inputNum http data
  * @param meta metadata about a validated field
  * @returns Promise<boolean>
  */
-export const isGreaterThanZero = async (inputNum: number, meta: Meta) => {
+export const isNotGreaterThanZero = async (inputNum: number, meta: Meta) => {
   if (inputNum <= 0) {
     throw new Error(`${meta.path} must be greater than zero`);
   }
@@ -19,12 +19,12 @@ export const isGreaterThanZero = async (inputNum: number, meta: Meta) => {
 };
 
 /**
- * isLoanAmountExceedsLimit - checks if input value exceeds loan amount
+ * isLoanAmountWithinLimit - checks if input value does not exceeds loan amount
  * @param loanAmount http data
  * @param meta metadata about a validated field
  * @returns Promise<boolean>
  */
-export const isLoanAmountExceedsLimit = async (
+export const isLoanAmountWithinLimit = async (
   loanAmount: number,
   meta: Meta
 ) => {
@@ -68,22 +68,22 @@ export const LoanBodyValidation: ValidationChain[] = [
     .isNumeric()
     .withMessage('loanAmount should be numeric')
     .bail()
-    .custom(isGreaterThanZero)
-    .custom(isLoanAmountExceedsLimit),
+    .custom(isNotGreaterThanZero)
+    .custom(isLoanAmountWithinLimit),
   body('income')
     .optional({checkFalsy: false})
     .bail()
     .isNumeric()
     .withMessage('income should be a number')
     .bail()
-    .custom(isGreaterThanZero),
+    .custom(isNotGreaterThanZero),
   body('interestRate')
     .optional({checkFalsy: false})
     .bail()
     .isNumeric()
     .withMessage('interestRate should be a number')
     .bail()
-    .custom(isGreaterThanZero),
+    .custom(isNotGreaterThanZero),
   body('loanType')
     .trim()
     .notEmpty()

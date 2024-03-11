@@ -2,7 +2,7 @@ import Redis, {RedisOptions} from 'ioredis';
 import {Config} from '../config';
 import {LoggerName} from '../constants';
 import {LoggerService} from '../services';
-import {HttpErrors} from '../utils';
+import {ServiceUnavailableExceptionError} from '../utils';
 
 let redisClient: Redis;
 
@@ -35,7 +35,7 @@ export class RedisClient {
         redisClient = conn;
       } catch (err) {
         this.logger.error(err);
-        throw HttpErrors.ServiceUnavailable((err as Error).message);
+        throw new ServiceUnavailableExceptionError((err as Error).message);
       }
     }
     this.logger.info(

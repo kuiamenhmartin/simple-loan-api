@@ -5,7 +5,7 @@ import {RedisClient} from '../datasource';
 import {LoggerService} from '../services';
 
 export class LoanApplicationRepository
-  implements DefaultCrudRepository<LoanApplication>
+  implements DefaultCrudRepository<Redis, LoanApplication>
 {
   dataSource: Promise<Redis>;
   logger: LoggerService;
@@ -21,7 +21,7 @@ export class LoanApplicationRepository
    * findAll - retrieves list of loan applications
    * @returns Promise<LoanApplication[]> - list of loan applications
    */
-  async findAll() {
+  async findAll(): Promise<LoanApplication[]> {
     const data = [];
 
     // cursor based pagination that begins at 0
@@ -56,7 +56,7 @@ export class LoanApplicationRepository
    * @param loanApplicationId - loan application id
    * @returns Promise<LoanApplication>
    */
-  async findById(loanApplicationId: string) {
+  async findById(loanApplicationId: string): Promise<LoanApplication> {
     const loan = await (await this.dataSource).get(loanApplicationId);
     return safeJsonParse(loan as string, {}) as LoanApplication;
   }
@@ -66,7 +66,7 @@ export class LoanApplicationRepository
    * @param loanApplication - loan application data to create
    * @returns Promise<LoanApplication>
    */
-  async create(loanApplication: LoanApplication) {
+  async create(loanApplication: LoanApplication): Promise<LoanApplication> {
     const loanApplicationId = generateRandomKey();
     (await this.dataSource).set(
       loanApplicationId,
@@ -79,11 +79,12 @@ export class LoanApplicationRepository
    * update - update loanApplication by loan application id
    * @param loanApplicationId - loan application id
    * @param loanApplication - loan application data to update
+   * @returns Promise<void>
    */
   async update(
     loanApplicationId: string,
     loanApplication: Partial<LoanApplication>
-  ) {
+  ): Promise<void> {
     await (
       await this.dataSource
     ).set(loanApplicationId, JSON.stringify(loanApplication));
@@ -92,8 +93,9 @@ export class LoanApplicationRepository
   /**
    * delete - deletes loan by loan application id
    * @param loanApplicationId - loan application id
+   * @returns Promise<void>
    */
-  async delete(loanApplicationId: string) {
+  async delete(loanApplicationId: string): Promise<void> {
     await (await this.dataSource).del([loanApplicationId]);
   }
 }

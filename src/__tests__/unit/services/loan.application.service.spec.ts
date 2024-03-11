@@ -7,16 +7,23 @@ import {
   SingleLoanApplication,
 } from '../../fixtures/loan.application.fixture';
 import {LoanApplicationRepository} from '../../../repository';
-import {LoanApplication, LoanType} from '../../../interfaces';
+import {
+  DefaultCrudRepository,
+  LoanApplication,
+  LoanType,
+} from '../../../interfaces';
 import {
   CAR_LOAN_TERM,
   PERSONAL_LOAN_TERM,
 } from '../../../constants/loan.constant';
+import {Redis} from 'ioredis';
 
 describe('Loan Application Service (unit)', () => {
-  let loanApplicationService: LoanApplicationService;
   const testSandbox = sinon.createSandbox();
-  let loanApplicationRepositoryStub: sinon.SinonStubbedInstance<LoanApplicationRepository>;
+  let loanApplicationService: LoanApplicationService;
+  let loanApplicationRepositoryStub: sinon.SinonStubbedInstance<
+    DefaultCrudRepository<Redis, LoanApplication>
+  >;
 
   before(() => {
     loanApplicationService = new LoanApplicationService();
