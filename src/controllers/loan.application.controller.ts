@@ -1,10 +1,14 @@
 import {Request} from 'express';
 import {HttpStatusCodes} from '../constants';
-import {matchedData} from 'express-validator';
-import {ComputedLoanApplication, LoanApplication} from '../interfaces';
 import {ResponseType} from '../types';
 import {LoanApplicationService} from '../services';
 import {calculateMonthlyPayment} from '../utils';
+import {
+  ComputedLoanApplication,
+  LoanApplication,
+  loanApplicationParamSchema,
+  loanApplicationSchema,
+} from '../schemas';
 
 export class LoanApplicationController {
   loanApplicationService: LoanApplicationService;
@@ -19,10 +23,11 @@ export class LoanApplicationController {
    * @returns Promise<ResponseType<ComputedLoanApplication>> - the newly created loan application
    */
   async create(req: Request): Promise<ResponseType<ComputedLoanApplication>> {
-    const data = matchedData(req, {includeOptionals: false}) as LoanApplication;
+    const {body: loanApplicationData} = loanApplicationSchema.parse(req);
 
     // create new loan application
-    const loanApplcation = await this.loanApplicationService.create(data);
+    const loanApplcation =
+      await this.loanApplicationService.create(loanApplicationData);
 
     // get payment term based on loan type
     const loanTerm = this.loanApplicationService.getLoanTerm(
@@ -69,7 +74,7 @@ export class LoanApplicationController {
    * @returns Promise<ResponseType<LoanApplication>> - loan application
    */
   async findById(req: Request): Promise<ResponseType<LoanApplication>> {
-    const params = matchedData(req, {includeOptionals: false});
+    const {params} = loanApplicationParamSchema.parse(req);
     const loanApplication = await this.loanApplicationService.findById(
       params.id as string
     );
@@ -87,12 +92,17 @@ export class LoanApplicationController {
    * @returns Promise<ResponseType> - response message
    */
   async update(req: Request): Promise<ResponseType> {
-    const data = matchedData(req, {includeOptionals: false}) as LoanApplication;
-    await this.loanApplicationService.update(data.id as string, data);
+    const {params} = loanApplicationParamSchema.parse(req);
+    const {body} = loanApplicationSchema.parse(req);
+    const loanApplicationData = {...body, ...params} as LoanApplication;
+    await this.loanApplicationService.update(
+      loanApplicationData.id as string,
+      loanApplicationData
+    );
     return {
       status: HttpStatusCodes.OK,
       success: true,
-      message: `Loan application '${data.id}' successfully updated!`,
+      message: `Loan application '${loanApplicationData.id}' successfully updated!`,
     };
   }
 
@@ -102,12 +112,12 @@ export class LoanApplicationController {
    * @returns Promise<ResponseType> - response message
    */
   async delete(req: Request): Promise<ResponseType> {
-    const data = matchedData(req, {includeOptionals: false});
-    await this.loanApplicationService.delete(data.id as string);
+    const {params} = loanApplicationParamSchema.parse(req);
+    await this.loanApplicationService.delete(params.id as string);
     return {
       status: HttpStatusCodes.OK,
       success: true,
-      message: `Loan application '${data.id}' successfully deleted!`,
+      message: `Loan application '${params.id}' successfully deleted!`,
     };
   }
 }

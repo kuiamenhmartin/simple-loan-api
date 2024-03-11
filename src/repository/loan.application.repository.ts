@@ -1,8 +1,9 @@
 import Redis from 'ioredis';
-import {DefaultCrudRepository, LoanApplication} from '../interfaces';
+import {DefaultCrudRepository} from '../interfaces';
 import {generateRandomKey, safeJsonParse} from '../utils';
 import {RedisClient} from '../datasource';
 import {LoggerService} from '../services';
+import {LoanApplication} from '../schemas';
 
 export class LoanApplicationRepository
   implements DefaultCrudRepository<Redis, LoanApplication>

@@ -1,6 +1,6 @@
 import {CAR_LOAN_TERM, PERSONAL_LOAN_TERM} from '../constants';
-import {LoanApplication, LoanType} from '../interfaces';
 import {LoanApplicationRepository} from '../repository';
+import {LoanApplication, LoanType} from '../schemas';
 import {ResourceNotFoundExceptionError} from '../utils';
 import {LoggerService} from './logger.service';
 

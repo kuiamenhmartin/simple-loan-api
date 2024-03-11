@@ -49,7 +49,7 @@ Here the list of the frameworks/libraries used in this project:
 * [Express][ExpressJS]
 * [Typescrpt][Typescript]
 * [Redis][IORedis]
-* [Express Validator][ExpressValidator]
+* [Zod][Zod]
 * [Winston Logger][Winston]
 * [Docker][Docker]
 * [Mocha][Mocha]
@@ -367,7 +367,7 @@ The REST API for this project is listed below.
 [ExpressJS]: https://expressjs.com/
 [IORedis]: https://www.npmjs.com/package/ioredis
 [Docker]: https://docs.docker.com/compose/
-[ExpressValidator]: https://express-validator.github.io/docs/api/check/
+[Zod]: https://www.npmjs.com/package/zod
 [Typescript]: https://www.typescriptlang.org/
 [Winston]: https://www.npmjs.com/package//winston
 [InstallNVM]: https://www.freecodecamp.org/news/node-version-manager-nvm-install-guide/

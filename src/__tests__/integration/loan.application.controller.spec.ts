@@ -9,8 +9,8 @@ import {
   LoanEndpoint,
   createNewLoanApplicationFixture,
 } from '../fixtures';
-import {LoanType} from '../../interfaces';
 import {HttpStatusCodes} from '../../constants';
+import {LoanType} from '../../schemas';
 
 describe('Loan Application Controller (integration)', () => {
   const app = express();

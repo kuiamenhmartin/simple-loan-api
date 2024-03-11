@@ -1,4 +1,4 @@
-import {LoanApplication, LoanType} from '../../interfaces';
+import {LoanApplication, LoanType} from '../../schemas';
 
 export const LoanEndpoint = '/api/loans';
 
