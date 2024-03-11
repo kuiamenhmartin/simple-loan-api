@@ -4,7 +4,7 @@ import {LoggerName} from '../constants';
 import {LoggerService} from '../services';
 import {ServiceUnavailableExceptionError} from '../utils';
 
-let redisClient: Redis;
+let dSource: Redis;
 
 /**
  * Create a singleton redis connection
@@ -20,27 +20,37 @@ export class RedisClient {
     this.config = new Config();
   }
 
+  createRedisClient(opts: RedisOptions): Redis {
+    return new Redis(opts);
+  }
+
   async connect(): Promise<Redis> {
-    if (!redisClient) {
-      try {
-        this.logger.info('creating redis connection...');
-        const conn = new Redis({
-          port: this.config.redis.port,
-          host: this.config.redis.host,
-          password: this.config.redis.password,
-          username: this.config.redis.username,
-          db: Number(this.config.redis.db),
-        } as RedisOptions);
-        // set redis connection  once created
-        redisClient = conn;
-      } catch (err) {
-        this.logger.error(err);
-        throw new ServiceUnavailableExceptionError((err as Error).message);
-      }
+    if (!dSource) {
+      this.logger.info('creating redis connection...');
+      const conn = this.createRedisClient({
+        port: this.config.redis.port,
+        host: this.config.redis.host,
+        password: this.config.redis.password,
+        username: this.config.redis.username,
+        db: Number(this.config.redis.db),
+      });
+      // set redis connection  once created
+      dSource = conn;
     }
-    this.logger.info(
-      `connected to redis client on port ${this.config.redis.port}`
-    );
-    return redisClient;
+
+    // redis listeners to react to state changes
+    dSource.on('ready', () => {
+      this.logger.info(
+        `connected to redis client on port ${this.config.redis.port}`
+      );
+    });
+
+    dSource.on('error', err => {
+      this.logger.error(err.message);
+      throw new ServiceUnavailableExceptionError(err.message);
+    });
+
+    // return redis client connection
+    return dSource;
   }
 }
